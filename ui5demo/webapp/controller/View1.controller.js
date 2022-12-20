@@ -432,7 +432,7 @@ sap.ui.define([
             
                     var oFilter
 
-                    if(oControl.getId() == "container-ui5demo---View1--oSearch"){
+                    if(oFilterItem.mProperties.name == "Search"){
                         var sQuery = this.byId("oSearch").getValue();
 
                         if (sQuery) {
@@ -486,13 +486,13 @@ sap.ui.define([
                 var oFilterBar = this.byId("filterbar")
                 var hidden = []
                 
-                var _mAdaptFiltersDialogInitialItemsOrder = oFilterBar._mAdaptFiltersDialogInitialItemsOrder
+                // var _mAdaptFiltersDialogInitialItemsOrder = oFilterBar._mAdaptFiltersDialogInitialItemsOrder
                 
-                for(var item of _mAdaptFiltersDialogInitialItemsOrder){
-                    if(item.filterItem.mProperties.visibleInFilterBar == false){
-                        hidden.push(item.filterItem.mProperties.name)
-                    }
-                }
+                // for(var item of _mAdaptFiltersDialogInitialItemsOrder){
+                //     if(item.filterItem.mProperties.visibleInFilterBar == false){
+                //         hidden.push(item.filterItem.mProperties.name)
+                //     }
+                // }
 
                
                 return hidden;
@@ -513,7 +513,7 @@ sap.ui.define([
             
                     
 
-                    if(oControl.getId() == "container-ui5demo---View1--oSearch"){
+                    if(oFilterItem.mProperties.name == "Search"){
                         var sQuery = this.byId("oSearch").getValue();
                         if (sQuery) {
                             list.push(oFilterItem.getName())
