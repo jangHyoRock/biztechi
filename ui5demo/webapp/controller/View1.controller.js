@@ -142,7 +142,8 @@ sap.ui.define([
                                     xmlHttpPost.setRequestHeader("Authorization", "Basic c3BvYzA2OlNwb2MwNiEh");
                                     xmlHttpPost.setRequestHeader("X-Requested-With", "XMLHttpRequest");
                                     xmlHttpPost.setRequestHeader("x-csrf-token", xmlHttp.getResponseHeader("x-csrf-token"));
-                                    xmlHttpPost.setRequestHeader("Accept-Language","euc-kr");
+                                    //xmlHttpPost.setRequestHeader("Accept-Language","euc-kr");
+                                    xmlHttpPost.setRequestHeader("Accept-Language","*");
                                     xmlHttpPost.setRequestHeader("Accept","application/json");
                                     xmlHttpPost.send();
 
@@ -286,7 +287,8 @@ sap.ui.define([
                                     xmlHttpPost.setRequestHeader("Authorization", "Basic c3BvYzA2OlNwb2MwNiEh");
                                     xmlHttpPost.setRequestHeader("X-Requested-With", "XMLHttpRequest");
                                     xmlHttpPost.setRequestHeader("x-csrf-token",xmlHttp.getResponseHeader("x-csrf-token"));
-                                    xmlHttpPost.setRequestHeader("Accept-Language","euc-kr");
+                                   // xmlHttpPost.setRequestHeader("Accept-Language","euc-kr");
+                                    xmlHttpPost.setRequestHeader("Accept-Language","*");
                                     xmlHttpPost.setRequestHeader("Accept","application/json");
 
                                     xmlHttpPost.send();
