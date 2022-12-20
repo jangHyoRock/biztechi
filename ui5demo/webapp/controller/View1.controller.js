@@ -7,7 +7,8 @@ sap.ui.define([
 	"sap/ui/unified/library",
     'sap/ui/comp/smartvariants/PersonalizableInfo',
 	"sap/m/MessageToast",
-    "sap/ui/core/BusyIndicator"],
+    "sap/ui/core/BusyIndicator"
+],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
@@ -128,7 +129,6 @@ sap.ui.define([
                                     xmlHttpPost.setRequestHeader("X-Requested-With", "XMLHttpRequest");
                                     xmlHttpPost.setRequestHeader("x-csrf-token", xmlHttp.getResponseHeader("x-csrf-token"));
                                     //xmlHttpPost.setRequestHeader("Accept-Language","euc-kr");
-                                    xmlHttpPost.setRequestHeader("Accept-Language","*");
                                     xmlHttpPost.setRequestHeader("Accept","application/json");
                                     xmlHttpPost.send();
 
@@ -149,12 +149,13 @@ sap.ui.define([
                             if (xmlHttpPost.readyState == 4) { 
                                 if (xmlHttpPost.status == 200 || xmlHttpPost.status == 201){
                                     var headers = xmlHttpPost.getResponseHeader('sap-message').trim().split('\r\n')[0];
+                                    
                                     var _spmsg = headers.split('"message":"')[1];
                                     var msg = _spmsg.split('","target')[0];
+                                    var _msg = decodeURIComponent(JSON.parse('"'+msg+'"'));
 
-                                    MessageToast.show(msg,{duration:5000});
+                                    MessageToast.show(_msg,{duration:5000});
                                     BusyIndicator.hide();
-
 
                                     console.log("[statusPost] : " + xmlHttpPost.status);
                                     console.log("[responsePost] : " + "[success]");    				   				    				
@@ -263,7 +264,7 @@ sap.ui.define([
                                         console.log("[Allheaders3] : " + xmlHttp.getAllResponseHeaders());
                                         console.log("");
 
-                                    //var url = "http://localhost:9999/http://20.194.41.230:50000/sap/opu/odata/sap/ZSPOC06_03_SOLIST_B_V2/rejectAll?SalesOrderNumber="+_salesOrderNumber+"&pricingdate="+s_dtFormat+"&rejectreason="+rejectreason ;
+                                   //var url = "http://localhost:9999/http://20.194.41.230:50000/sap/opu/odata/sap/ZSPOC06_03_SOLIST_B_V2/rejectAll?SalesOrderNumber="+_salesOrderNumber+"&pricingdate="+s_dtFormat+"&rejectreason="+rejectreason ;
                                     var url = "http://20.194.41.230:50000/sap/opu/odata/sap/ZSPOC06_03_SOLIST_B_V2/rejectAll?SalesOrderNumber="+_salesOrderNumber+"&pricingdate="+s_dtFormat+"&rejectreason="+rejectreason ;
                                     var _durl = decodeURI(url);
                                     console.log(_durl);
@@ -272,8 +273,7 @@ sap.ui.define([
                                     xmlHttpPost.setRequestHeader("Authorization", "Basic c3BvYzA2OlNwb2MwNiEh");
                                     xmlHttpPost.setRequestHeader("X-Requested-With", "XMLHttpRequest");
                                     xmlHttpPost.setRequestHeader("x-csrf-token",xmlHttp.getResponseHeader("x-csrf-token"));
-                                   // xmlHttpPost.setRequestHeader("Accept-Language","euc-kr");
-                                    xmlHttpPost.setRequestHeader("Accept-Language","*");
+                                    //xmlHttpPost.setRequestHeader("Accept-Language","euc-kr");
                                     xmlHttpPost.setRequestHeader("Accept","application/json");
 
                                     xmlHttpPost.send();
@@ -290,7 +290,6 @@ sap.ui.define([
                                     BusyIndicator.hide();
                                 }
                             }
-                           
                         };
                         xmlHttpPost.onreadystatechange = function(e) {
                             if (xmlHttpPost.readyState == 4) { 
@@ -299,8 +298,9 @@ sap.ui.define([
                                     var headers = xmlHttpPost.getResponseHeader('sap-message').trim().split('\r\n')[0];
                                     var _spmsg = headers.split('"message":"')[1];
                                     var msg = _spmsg.split('","target')[0];
+                                    var _msg = decodeURIComponent(JSON.parse('"'+msg+'"'));
 
-                                    MessageToast.show(msg,{duration:5000});
+                                    MessageToast.show(_msg,{duration:5000});
                                     BusyIndicator.hide();
                                     console.log("[statusPostReject All] : " + xmlHttpPost.status);
                                     console.log("[responsePostReject All] : " + "[success]");    				   				    				
