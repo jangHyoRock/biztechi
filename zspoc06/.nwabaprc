@@ -1,0 +1,5 @@
+{
+ "base" :"./dist",
+ "conn_usetrictssl" : false,
+ "conn_server":"20.194.41.230:50000",   
+}
