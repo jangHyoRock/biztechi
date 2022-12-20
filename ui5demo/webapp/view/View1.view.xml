@@ -99,6 +99,11 @@ xmlns:svm="sap.ui.comp.smartvariants">
                                 <smartMultiInput:SmartMultiInput id="idSmartMultiInput13" entitySet="SalesList"  value="{CreatedBy}" supportRanges="true" tokenUpdate=".tokenUpdate"/>
                             </fb:control>
                         </fb:FilterItem>
+                        <fb:FilterItem name="Sales Order Number" label ="Sales Order Number">
+                            <fb:control>
+                                <smartMultiInput:SmartMultiInput id="idSmartMultiInput15" entitySet="SalesList"  value="{SalesOrderNumber}" supportRanges="true" tokenUpdate=".tokenUpdate"/>
+                            </fb:control>
+                        </fb:FilterItem>
                     </fb:filterItems>
                 </fb:FilterBar>           
             </f:DynamicPageHeader>

@@ -85,8 +85,8 @@ sap.ui.define([
                         const xmlHttpPost = new XMLHttpRequest();
                         const xmlHttp = new XMLHttpRequest();
 
-                        //xmlHttp.open("GET", "http://localhost:9999/http://20.194.41.230:50000/sap/opu/odata/sap/ZSPOC06_03_C_SOLIST_B_V2", true)
-                        xmlHttp.open("GET", "http://20.194.41.230:50000/sap/opu/odata/sap/ZSPOC06_03_C_SOLIST_B_V2", true)
+                        xmlHttp.open("GET", "http://localhost:9999/http://20.194.41.230:50000/sap/opu/odata/sap/ZSPOC06_03_C_SOLIST_B_V2", true)
+                        //xmlHttp.open("GET", "http://20.194.41.230:50000/sap/opu/odata/sap/ZSPOC06_03_C_SOLIST_B_V2", true)
                         xmlHttp.setRequestHeader("Authorization", "Basic c3BvYzA2OlNwb2MwNiEh");
                         xmlHttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
                         xmlHttp.setRequestHeader("x-csrf-token", "fetch");
@@ -120,7 +120,7 @@ sap.ui.define([
                                     console.log("[AllheadersOnload] : " + xmlHttp.getAllResponseHeaders());
                                     console.log("");
 
-                                    //var url = "http://localhost:9999/http://20.194.41.230:50000/sap/opu/odata/sap/ZSPOC06_03_SOLIST_B_V2/rePricing?SalesOrderNumber="+_salesOrderNumber +"&pricingdate="+s_dtFormat ;
+                                   // var url = "http://localhost:9999/http://20.194.41.230:50000/sap/opu/odata/sap/ZSPOC06_03_SOLIST_B_V2/rePricing?SalesOrderNumber="+_salesOrderNumber +"&pricingdate="+s_dtFormat ;
                                     var url = "http://20.194.41.230:50000/sap/opu/odata/sap/ZSPOC06_03_SOLIST_B_V2/rePricing?SalesOrderNumber="+_salesOrderNumber +"&pricingdate="+s_dtFormat ;
                                     var _durl = decodeURI(url);
                                     xmlHttpPost.open("POST", _durl,true);
@@ -290,6 +290,7 @@ sap.ui.define([
                                     BusyIndicator.hide();
                                 }
                             }
+                           
                         };
                         xmlHttpPost.onreadystatechange = function(e) {
                             if (xmlHttpPost.readyState == 4) { 
@@ -459,7 +460,11 @@ sap.ui.define([
                             var list = [];
 
                             for(var oFIlter of oControl.getFilter().aFilters){
-                                list.push(new Filter(oFIlter.sPath, oFIlter.sOperator, oFIlter.oValue1))
+                                if(oFIlter.oValue2 == undefined){
+                                    list.push(new Filter(oFIlter.sPath, oFIlter.sOperator, oFIlter.oValue1));
+                                }else{
+                                    list.push(new Filter(oFIlter.sPath, oFIlter.sOperator, oFIlter.oValue1, oFIlter.oValue2));
+                                }
                             }
 
                             aFilter.push(new Filter({
