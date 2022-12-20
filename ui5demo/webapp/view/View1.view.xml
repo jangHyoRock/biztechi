@@ -7,6 +7,7 @@ xmlns:f="sap.f"
 xmlns:fb="sap.ui.comp.filterbar"
 xmlns:smartMultiInput="sap.ui.comp.smartmultiinput"
 xmlns:svm="sap.ui.comp.smartvariants">
+
 <f:DynamicPage id="page" headerExpanded="true" >
     <f:title>
         <f:DynamicPageTitle>

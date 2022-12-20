@@ -7,8 +7,7 @@ sap.ui.define([
 	"sap/ui/unified/library",
     'sap/ui/comp/smartvariants/PersonalizableInfo',
 	"sap/m/MessageToast",
-    "sap/ui/core/BusyIndicator"
-],
+    "sap/ui/core/BusyIndicator"],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */

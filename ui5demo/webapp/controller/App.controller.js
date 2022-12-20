@@ -3,6 +3,7 @@ sap.ui.define(
       "sap/ui/core/mvc/Controller",
       'sap/ui/model/odata/v2/ODataModel',
       "sap/ui/model/json/JSONModel"
+    
   ],
   function(BaseController, ODataModel, JSONModel) {
     "use strict";
