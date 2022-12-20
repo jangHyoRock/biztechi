@@ -80,6 +80,21 @@ sap.ui.define([
                         var dt = date;
                         var _dtFormat= dt.getFullYear()+ '-' + (dt.getMonth()+1).toString().padStart(2,'0') + '-' + dt.getDate().toString().padStart(2,'0');
                         var s_dtFormat = "datetime'"+_dtFormat+"T00:00'";
+/*
+                        oModel.callFunction("/rePricing",{method:"POST", 
+                        urlParameters:{"SalesOrderNumber":_salesOrderNumber, 
+                                        "pricingdate":date}, 
+                                        success:fnSuccess, 
+                                        error: fnError})
+                        function fnSuccess(oData,oResponse){
+                            console.log(oResponse);
+                          }
+                          function fnError(error){
+                            console.log(error);
+                          }
+
+*/
+
 
                         const xmlHttpPost = new XMLHttpRequest();
                         const xmlHttp = new XMLHttpRequest();
