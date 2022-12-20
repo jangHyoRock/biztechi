@@ -85,8 +85,8 @@ sap.ui.define([
                         const xmlHttpPost = new XMLHttpRequest();
                         const xmlHttp = new XMLHttpRequest();
 
-                        xmlHttp.open("GET", "http://localhost:9999/http://20.194.41.230:50000/sap/opu/odata/sap/ZSPOC06_03_C_SOLIST_B_V2", true)
-                        //xmlHttp.open("GET", "http://20.194.41.230:50000/sap/opu/odata/sap/ZSPOC06_03_C_SOLIST_B_V2", true)
+                        //xmlHttp.open("GET", "http://localhost:9999/http://20.194.41.230:50000/sap/opu/odata/sap/ZSPOC06_03_C_SOLIST_B_V2", true)
+                        xmlHttp.open("GET", "http://20.194.41.230:50000/sap/opu/odata/sap/ZSPOC06_03_C_SOLIST_B_V2", true)
                         xmlHttp.setRequestHeader("Authorization", "Basic c3BvYzA2OlNwb2MwNiEh");
                         xmlHttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
                         xmlHttp.setRequestHeader("x-csrf-token", "fetch");
