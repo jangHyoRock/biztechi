@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_UI',Version='0001',SAP__Origin='')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="UI"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMUNICATION',Version='0001',SAP__Origin='')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="Communication"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_PERSONALDATA',Version='0001',SAP__Origin='')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.PersonalData.v1" Alias="PersonalData"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_VALIDATION',Version='0001',SAP__Origin='')/$value">
+        <edmx:Include Namespace="Org.OData.Validation.V1" Alias="Validation"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_ANALYTICS',Version='0001',SAP__Origin='')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.Analytics.v1" Alias="Analytics"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="../../catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_HTML5',Version='0001',SAP__Origin='')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.HTML5.v1" Alias="HTML5"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="../../../sap/zspoc06_03_solist_b_v2/$metadata">
+        <edmx:Include Namespace="ZSPOC06_03_SOLIST_B_V2" Alias="SAP"/>
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema Namespace="zspoc06_03_solist_b_v2_van.v1" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            <Annotations Target="cds_zspoc06_03_solist.CreditType">
+                <Annotation Term="UI.Identification">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Business Partner"/>
+                            <PropertyValue Property="Value" Path="BusinessPartner"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Credit Segment"/>
+                            <PropertyValue Property="Value" Path="Credit_sgmnt"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Credit Category"/>
+                            <PropertyValue Property="Value" Path="Credit_category"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Credit Limit"/>
+                            <PropertyValue Property="Value" Path="Credit_Limit"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Credit Item Amount"/>
+                            <PropertyValue Property="Value" Path="Credit_Item_amt"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Credit Item Currency"/>
+                            <PropertyValue Property="Value" Path="Credit_Item_amt_curky"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Business Partner"/>
+                            <PropertyValue Property="Value" Path="BusinessPartner"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Credit Segment"/>
+                            <PropertyValue Property="Value" Path="Credit_sgmnt"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Credit Category"/>
+                            <PropertyValue Property="Value" Path="Credit_category"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Credit Limit"/>
+                            <PropertyValue Property="Value" Path="Credit_Limit"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Credit Item Amount"/>
+                            <PropertyValue Property="Value" Path="Credit_Item_amt"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Credit Item Currency"/>
+                            <PropertyValue Property="Value" Path="Credit_Item_amt_curky"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="cds_zspoc06_03_solist.SalesListType">
+                <Annotation Term="UI.HeaderFacets">
+                    <Collection>
+                        <Record Type="UI.ReferenceFacet">
+                            <PropertyValue Property="Label" String="Sales Document"/>
+                            <PropertyValue Property="ID" String="SOLIST"/>
+                            <PropertyValue Property="Target" AnnotationPath="@UI.Identification"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.Facets">
+                    <Collection>
+                        <Record Type="UI.ReferenceFacet">
+                            <PropertyValue Property="Label" String="Itmes"/>
+                            <PropertyValue Property="ID" String="Items"/>
+                            <PropertyValue Property="Target" AnnotationPath="to_Items/@UI.LineItem"/>
+                        </Record>
+                        <Record Type="UI.ReferenceFacet">
+                            <PropertyValue Property="Label" String="Status"/>
+                            <PropertyValue Property="ID" String="Status"/>
+                            <PropertyValue Property="Target" AnnotationPath="to_Status/@UI.Identification"/>
+                        </Record>
+                        <Record Type="UI.ReferenceFacet">
+                            <PropertyValue Property="Label" String="Credit"/>
+                            <PropertyValue Property="ID" String="Credit"/>
+                            <PropertyValue Property="Target" AnnotationPath="to_CreditAmt/@UI.Identification"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.Identification">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Sales Oder Number"/>
+                            <PropertyValue Property="Value" Path="SalesOrderNumber"/>
+                        </Record>
+                        <Record Type="UI.DataFieldForAction">
+                            <PropertyValue Property="Label" String="Re-Pricing"/>
+                            <PropertyValue Property="Action" String="cds_zspoc06_03_solist.cds_zspoc06_03_solist_Entities/rePricing"/>
+                            <PropertyValue Property="InvocationGrouping" EnumMember="UI.OperationGroupingType/Isolated"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Order Type"/>
+                            <PropertyValue Property="Value" Path="OrderType"/>
+                        </Record>
+                        <Record Type="UI.DataFieldForAction">
+                            <PropertyValue Property="Label" String="Reject All"/>
+                            <PropertyValue Property="Action" String="cds_zspoc06_03_solist.cds_zspoc06_03_solist_Entities/rejectAll"/>
+                            <PropertyValue Property="InvocationGrouping" EnumMember="UI.OperationGroupingType/Isolated"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Doc. Currency"/>
+                            <PropertyValue Property="Value" Path="DocCurrency"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Create Date"/>
+                            <PropertyValue Property="Value" Path="CreateDate"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Sales Organization"/>
+                            <PropertyValue Property="Value" Path="SalesOrganization"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Dustribution Channel"/>
+                            <PropertyValue Property="Value" Path="DistChannel"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Division"/>
+                            <PropertyValue Property="Value" Path="Division"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Sales Office"/>
+                            <PropertyValue Property="Value" Path="SalesOffice"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Sales Group"/>
+                            <PropertyValue Property="Value" Path="SalesGroup"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Rejection Status(all)"/>
+                            <PropertyValue Property="Value" Path="RejectionStatus"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Sold-to Party"/>
+                            <PropertyValue Property="Value" Path="SoldToParty"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Status of Static check"/>
+                            <PropertyValue Property="Value" Path="StatusOfStatic"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Credit Account"/>
+                            <PropertyValue Property="Value" Path="CreditAcct"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Delivery status"/>
+                            <PropertyValue Property="Value" Path="DeliverStatus"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Risk category"/>
+                            <PropertyValue Property="Value" Path="RiskCategory"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Created By"/>
+                            <PropertyValue Property="Value" Path="CreatedBy"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Value (Inc. Tax)"/>
+                            <PropertyValue Property="Value" Path="value"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Create Date"/>
+                            <PropertyValue Property="Value" Path="CreateDate"/>
+                        </Record>
+                        <Record Type="UI.DataFieldForAction">
+                            <PropertyValue Property="Label" String="Re-Pricing"/>
+                            <PropertyValue Property="Action" String="cds_zspoc06_03_solist.cds_zspoc06_03_solist_Entities/rePricing"/>
+                            <PropertyValue Property="InvocationGrouping" EnumMember="UI.OperationGroupingType/Isolated"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Order Type"/>
+                            <PropertyValue Property="Value" Path="OrderType"/>
+                        </Record>
+                        <Record Type="UI.DataFieldForAction">
+                            <PropertyValue Property="Label" String="Reject All"/>
+                            <PropertyValue Property="Action" String="cds_zspoc06_03_solist.cds_zspoc06_03_solist_Entities/rejectAll"/>
+                            <PropertyValue Property="InvocationGrouping" EnumMember="UI.OperationGroupingType/Isolated"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Sales Order Number"/>
+                            <PropertyValue Property="Value" Path="SalesOrderNumber"/>
+                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Sales Organization"/>
+                            <PropertyValue Property="Value" Path="SalesOrganization"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Dustribution Channel"/>
+                            <PropertyValue Property="Value" Path="DistChannel"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Division"/>
+                            <PropertyValue Property="Value" Path="Division"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Sales Office"/>
+                            <PropertyValue Property="Value" Path="SalesOffice"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Sales Group"/>
+                            <PropertyValue Property="Value" Path="SalesGroup"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Rejection Status(all)"/>
+                            <PropertyValue Property="Value" Path="RejectionStatus"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Status of Static check"/>
+                            <PropertyValue Property="Value" Path="StatusOfStatic"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Delivery status"/>
+                            <PropertyValue Property="Value" Path="DeliverStatus"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Created By"/>
+                            <PropertyValue Property="Value" Path="CreatedBy"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Sold-to Party"/>
+                            <PropertyValue Property="Value" Path="SoldToParty"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Credit Account"/>
+                            <PropertyValue Property="Value" Path="CreditAcct"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Risk category"/>
+                            <PropertyValue Property="Value" Path="RiskCategory"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Doc. Currency"/>
+                            <PropertyValue Property="Value" Path="DocCurrency"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Value (Inc. Tax)"/>
+                            <PropertyValue Property="Value" Path="value"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.SelectionFields">
+                    <Collection>
+                        <PropertyPath>OrderType</PropertyPath>
+                        <PropertyPath>SalesOrganization</PropertyPath>
+                        <PropertyPath>DistChannel</PropertyPath>
+                        <PropertyPath>Division</PropertyPath>
+                        <PropertyPath>SalesOffice</PropertyPath>
+                        <PropertyPath>SalesGroup</PropertyPath>
+                        <PropertyPath>SoldToParty</PropertyPath>
+                        <PropertyPath>RiskCategory</PropertyPath>
+                        <PropertyPath>CreateDate</PropertyPath>
+                        <PropertyPath>RejectionStatus</PropertyPath>
+                        <PropertyPath>StatusOfStatic</PropertyPath>
+                        <PropertyPath>DeliverStatus</PropertyPath>
+                        <PropertyPath>SalesOrderNumber</PropertyPath>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="cds_zspoc06_03_solist.ItemsType">
+                <Annotation Term="UI.Identification">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Sales Oder Item"/>
+                            <PropertyValue Property="Value" Path="posnr"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Net Price"/>
+                            <PropertyValue Property="Value" Path="cmpre"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Qty."/>
+                            <PropertyValue Property="Value" Path="kbmeng"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Value (Inc. Tax)"/>
+                            <PropertyValue Property="Value" Path="multiple"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Sales Order Item"/>
+                            <PropertyValue Property="Value" Path="posnr"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Net Price"/>
+                            <PropertyValue Property="Value" Path="cmpre"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Qty."/>
+                            <PropertyValue Property="Value" Path="kbmeng"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Value (Inc. Tax)"/>
+                            <PropertyValue Property="Value" Path="multiple"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="cds_zspoc06_03_solist.StatusType">
+                <Annotation Term="UI.Identification">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Rejection status(all item)"/>
+                            <PropertyValue Property="Value" Path="RejectionStatus"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Status of Static check"/>
+                            <PropertyValue Property="Value" Path="StatusOfStatic"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Delivery status"/>
+                            <PropertyValue Property="Value" Path="DeliverStatus"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Rejection status(all item)"/>
+                            <PropertyValue Property="Value" Path="RejectionStatus"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Status of Static check"/>
+                            <PropertyValue Property="Value" Path="StatusOfStatic"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Label" String="Delivery status"/>
+                            <PropertyValue Property="Value" Path="DeliverStatus"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>
