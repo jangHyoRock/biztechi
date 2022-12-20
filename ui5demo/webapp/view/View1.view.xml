@@ -208,25 +208,25 @@ xmlns:svm="sap.ui.comp.smartvariants">
                     <t:Column minWidth="150" width="auto">
                         <Label text="Sales Order Item" />
                         <t:template>
-                            <Text text="{salesList>to_Items/kbmeng}" wrapping="false" />
+                            <Text text="{salesList>to_Items/results/0/kbmeng}" wrapping="false" />
                         </t:template>
                     </t:Column>
                     <t:Column minWidth="150" width="auto">
                         <Label text="Net Price" />
                         <t:template>
-                            <u:Currency value="{salesList>to_Items/cmpre}" currency="{salesList>to_Items/waerk}"  useSymbol ="false"/>
+                            <Text text="{salesList>to_Items/results/0/cmpre} {salesList>to_Items/results/0/waerk}" />
                         </t:template>
                     </t:Column>
                     <t:Column minWidth="100" width="auto">
                         <Label text="Qty." />
                         <t:template>
-                            <u:Currency value="{salesList>to_Items/kbmeng}" currency="{salesList>to_Items/vrkme}" maxPrecision="0"/>
+                            <Text text="{salesList>to_Items/results/0/kbmeng} {salesList>to_Items/results/0/vrkme}"/>
                         </t:template>
                     </t:Column>
                     <t:Column minWidth="150" width="auto">
                         <Label text="Value(Inc. Tax)" />
                         <t:template>
-                            <u:Currency value="{salesList>to_Items/multiple}" currency="{salesList>to_Items/waerk}" useSymbol ="false"/>
+                            <Text text="{salesList>to_Items/results/0/multiple} {salesList>to_Items/results/0/waerk}"/>
                         </t:template>
                     </t:Column>
                 </t:columns>
