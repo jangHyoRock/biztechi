@@ -62,8 +62,8 @@ sap.ui.define([
                 var that = this;
                 var sPath =this.sPath
                 var salesOrderNumber = window.ui5demo.getView().getModel("salesList").getProperty(sPath + "/SalesOrderNumber")
-                var _salesOrderNumber = "'"+String(salesOrderNumber.padStart(10,'0'))+"'"; // '000003'
-
+              //  var _salesOrderNumber = "'"+String(salesOrderNumber.padStart(10,'0'))+"'"; // '000003'
+                var oModel = this.getView().getModel();
                 MessageBox.confirm(new sap.m.VBox({items : [new sap.m.Text({text : 'Prising Date: '}).addStyleClass(''), this.pricingDatePicker]}), 
 				{ 
                     title: "Re-Prising",
@@ -77,102 +77,124 @@ sap.ui.define([
                         }
                         BusyIndicator.show();
                         date.setHours(date.getHours() + 9);
-                    
-                        var dt = date;
-                        var _dtFormat= dt.getFullYear()+ '-' + (dt.getMonth()+1).toString().padStart(2,'0') + '-' + dt.getDate().toString().padStart(2,'0');
-                        var s_dtFormat = "datetime'"+_dtFormat+"T00:00'";
 
-                        const xmlHttpPost = new XMLHttpRequest();
-                        const xmlHttp = new XMLHttpRequest();
-
-                        //xmlHttp.open("GET", "http://localhost:9999/http://20.194.41.230:50000/sap/opu/odata/sap/ZSPOC06_03_C_SOLIST_B_V2", true)
-                        xmlHttp.open("GET", "http://20.194.41.230:50000/sap/opu/odata/sap/ZSPOC06_03_C_SOLIST_B_V2", true)
-                        xmlHttp.setRequestHeader("Authorization", "Basic c3BvYzA2OlNwb2MwNiEh");
-                        xmlHttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-                        xmlHttp.setRequestHeader("x-csrf-token", "fetch");
-                        xmlHttp.send();
-                        
-                        xmlHttp.onreadystatechange = function() {
-                            if (xmlHttp.readyState == 4) { 
-                                if (xmlHttp.status == 200 || xmlHttp.status == 201){
-                                    console.log("[status2] : " + xmlHttp.status);
-                                    console.log("[response2] : " + "[success]");    				   				    				
-                                    console.log("[response2] : " + xmlHttp.responseText);
-                                    console.log("");
-                                  
-                                }
-                                else {
-                                    console.log("[status] : " + xmlHttp.status);
-                                    console.log("[response] : " + "[fail]");    				   				    				
-                                    console.log("[response] : " + xmlHttp.responseText);
-                                    console.log("");  
-                                    MessageToast.show(xmlHttp.status);   
-                                    BusyIndicator.hide();   				
-                                }				
-                            } 
-    		            }
-                        xmlHttp.onload = () => {
-                            if (xmlHttp.readyState == 4) { 
-                                if (xmlHttp.status == 200 || xmlHttp.status == 201){
-                                    console.log("[statusOnload] : " + xmlHttp.status);
-                                    console.log("[responseOnload] : " + "[success3]");    				   				    				
-                                    console.log("[responseOnload] : " + xmlHttp.responseText);
-                                    console.log("[AllheadersOnload] : " + xmlHttp.getAllResponseHeaders());
-                                    console.log("");
-
-                                   // var url = "http://localhost:9999/http://20.194.41.230:50000/sap/opu/odata/sap/ZSPOC06_03_SOLIST_B_V2/rePricing?SalesOrderNumber="+_salesOrderNumber +"&pricingdate="+s_dtFormat ;
-                                    var url = "http://20.194.41.230:50000/sap/opu/odata/sap/ZSPOC06_03_SOLIST_B_V2/rePricing?SalesOrderNumber="+_salesOrderNumber +"&pricingdate="+s_dtFormat ;
-                                    var _durl = decodeURI(url);
-                                    xmlHttpPost.open("POST", _durl,true);
-                                    xmlHttpPost.setRequestHeader("Content-Type", "text/plain;charset=UTF-8") ;
-                                    xmlHttpPost.setRequestHeader("Authorization", "Basic c3BvYzA2OlNwb2MwNiEh");
-                                    xmlHttpPost.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-                                    xmlHttpPost.setRequestHeader("x-csrf-token", xmlHttp.getResponseHeader("x-csrf-token"));
-                                    //xmlHttpPost.setRequestHeader("Accept-Language","euc-kr");
-                                    xmlHttpPost.setRequestHeader("Accept","application/json");
-                                    xmlHttpPost.send();
-
-                                    console.log("[statusPOST] : " + xmlHttpPost.status);
-                                    console.log("[response2POST] : " + xmlHttpPost.responseText);
-                                    console.log("[AllResponseHeadersPOST] : " + xmlHttpPost.getAllResponseHeaders());
-                                    console.log("");
-
-                                }else{
-                                    alert("ERROR LOADING FILE!" + xmlHttp.status);
-                                    MessageToast.show("err");
-                                    MessageToast.show(xmlHttp.status); 
-                                    BusyIndicator.hide();  
-                                }
-                            }
-                        };
-                        xmlHttpPost.onreadystatechange = function() {
-                            if (xmlHttpPost.readyState == 4) { 
-                                if (xmlHttpPost.status == 200 || xmlHttpPost.status == 201){
-                                    var headers = xmlHttpPost.getResponseHeader('sap-message').trim().split('\r\n')[0];
+                        oModel.callFunction("/rePricing",{method:"POST", 
+                        urlParameters:{"SalesOrderNumber":salesOrderNumber, 
+                                        "pricingdate":date}, 
+                                        success:fnSuccess, 
+                                        error: fnError})
+                        function fnSuccess(oData,oResponse){
+                            console.log(oResponse);
+                            
                                     
-                                    var _spmsg = headers.split('"message":"')[1];
-                                    var msg = _spmsg.split('","target')[0];
-                                    var _msg = decodeURIComponent(JSON.parse('"'+msg+'"'));
+                            var _spmsg = JSON.stringify(oResponse.headers).split('message\\":\\"')[1]
+                            var msg = _spmsg.split('\\",\\"target')[0]
+                            var _msg = decodeURIComponent(JSON.parse('"'+msg+'"'));
 
-                                    MessageToast.show(_msg,{duration:5000});
-                                    BusyIndicator.hide();
+                            MessageToast.show(_msg,{duration:5000});
+                            BusyIndicator.hide();
+                          }
+                          function fnError(error){
+                            console.log(error);
+                            BusyIndicator.hide();
+                          }
+                        
+                        
+                        // var dt = date;
+                        // var _dtFormat= dt.getFullYear()+ '-' + (dt.getMonth()+1).toString().padStart(2,'0') + '-' + dt.getDate().toString().padStart(2,'0');
+                        // var s_dtFormat = "datetime'"+_dtFormat+"T00:00'";
 
-                                    console.log("[statusPost] : " + xmlHttpPost.status);
-                                    console.log("[responsePost] : " + "[success]");    				   				    				
-                                    console.log("[responsePost] : " + xmlHttpPost.responseText);
-                                    console.log("");
+                        // const xmlHttpPost = new XMLHttpRequest();
+                        // const xmlHttp = new XMLHttpRequest();
+
+                        // //xmlHttp.open("GET", "http://localhost:9999/http://20.194.41.230:50000/sap/opu/odata/sap/ZSPOC06_03_C_SOLIST_B_V2", true)
+                        // xmlHttp.open("GET", "http://20.194.41.230:50000/sap/opu/odata/sap/ZSPOC06_03_C_SOLIST_B_V2", true)
+                        // xmlHttp.setRequestHeader("Authorization", "Basic c3BvYzA2OlNwb2MwNiEh");
+                        // xmlHttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+                        // xmlHttp.setRequestHeader("x-csrf-token", "fetch");
+                        // xmlHttp.send();
+                        
+                        // xmlHttp.onreadystatechange = function() {
+                        //     if (xmlHttp.readyState == 4) { 
+                        //         if (xmlHttp.status == 200 || xmlHttp.status == 201){
+                        //             console.log("[status2] : " + xmlHttp.status);
+                        //             console.log("[response2] : " + "[success]");    				   				    				
+                        //             console.log("[response2] : " + xmlHttp.responseText);
+                        //             console.log("");
                                   
-                                }
-                                else {
-                                    console.log("[status] : " + xmlHttpPost.status);
-                                    console.log("[response] : " + "[fail]");    				   				    				
-                                    console.log("[response] : " + xmlHttpPost.responseText);
-                                    console.log("");        				
-                                    MessageToast.show(xmlHttpPost.status);   
-                                    BusyIndicator.hide();
-                                }				
-                            } 
-    		            }
+                        //         }
+                        //         else {
+                        //             console.log("[status] : " + xmlHttp.status);
+                        //             console.log("[response] : " + "[fail]");    				   				    				
+                        //             console.log("[response] : " + xmlHttp.responseText);
+                        //             console.log("");  
+                        //             MessageToast.show(xmlHttp.status);   
+                        //             BusyIndicator.hide();   				
+                        //         }				
+                        //     } 
+    		            // }
+                        // xmlHttp.onload = () => {
+                        //     if (xmlHttp.readyState == 4) { 
+                        //         if (xmlHttp.status == 200 || xmlHttp.status == 201){
+                        //             console.log("[statusOnload] : " + xmlHttp.status);
+                        //             console.log("[responseOnload] : " + "[success3]");    				   				    				
+                        //             console.log("[responseOnload] : " + xmlHttp.responseText);
+                        //             console.log("[AllheadersOnload] : " + xmlHttp.getAllResponseHeaders());
+                        //             console.log("");
+
+                        //            // var url = "http://localhost:9999/http://20.194.41.230:50000/sap/opu/odata/sap/ZSPOC06_03_SOLIST_B_V2/rePricing?SalesOrderNumber="+_salesOrderNumber +"&pricingdate="+s_dtFormat ;
+                        //             var url = "http://20.194.41.230:50000/sap/opu/odata/sap/ZSPOC06_03_SOLIST_B_V2/rePricing?SalesOrderNumber="+_salesOrderNumber +"&pricingdate="+s_dtFormat ;
+                        //             var _durl = decodeURI(url);
+                        //             xmlHttpPost.open("POST", _durl,true);
+                        //             xmlHttpPost.setRequestHeader("Content-Type", "text/plain;charset=UTF-8") ;
+                        //             xmlHttpPost.setRequestHeader("Authorization", "Basic c3BvYzA2OlNwb2MwNiEh");
+                        //             xmlHttpPost.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+                        //             xmlHttpPost.setRequestHeader("x-csrf-token", xmlHttp.getResponseHeader("x-csrf-token"));
+                        //             //xmlHttpPost.setRequestHeader("Accept-Language","euc-kr");
+                        //             xmlHttpPost.setRequestHeader("Accept","application/json");
+                        //             xmlHttpPost.send();
+
+                        //             console.log("[statusPOST] : " + xmlHttpPost.status);
+                        //             console.log("[response2POST] : " + xmlHttpPost.responseText);
+                        //             console.log("[AllResponseHeadersPOST] : " + xmlHttpPost.getAllResponseHeaders());
+                        //             console.log("");
+
+                        //         }else{
+                        //             alert("ERROR LOADING FILE!" + xmlHttp.status);
+                        //             MessageToast.show("err");
+                        //             MessageToast.show(xmlHttp.status); 
+                        //             BusyIndicator.hide();  
+                        //         }
+                        //     }
+                        // };
+                        // xmlHttpPost.onreadystatechange = function() {
+                        //     if (xmlHttpPost.readyState == 4) { 
+                        //         if (xmlHttpPost.status == 200 || xmlHttpPost.status == 201){
+                        //             var headers = xmlHttpPost.getResponseHeader('sap-message').trim().split('\r\n')[0];
+                                    
+                        //             var _spmsg = headers.split('"message":"')[1];
+                        //             var msg = _spmsg.split('","target')[0];
+                        //             var _msg = decodeURIComponent(JSON.parse('"'+msg+'"'));
+
+                        //             MessageToast.show(_msg,{duration:5000});
+                        //             BusyIndicator.hide();
+
+                        //             console.log("[statusPost] : " + xmlHttpPost.status);
+                        //             console.log("[responsePost] : " + "[success]");    				   				    				
+                        //             console.log("[responsePost] : " + xmlHttpPost.responseText);
+                        //             console.log("");
+                                  
+                        //         }
+                        //         else {
+                        //             console.log("[status] : " + xmlHttpPost.status);
+                        //             console.log("[response] : " + "[fail]");    				   				    				
+                        //             console.log("[response] : " + xmlHttpPost.responseText);
+                        //             console.log("");        				
+                        //             MessageToast.show(xmlHttpPost.status);   
+                        //             BusyIndicator.hide();
+                        //         }				
+                        //     } 
+    		            // }
                     }
                 }});
             },
@@ -184,7 +206,7 @@ sap.ui.define([
                 oModel.setData({
                     values:window.ui5demo.getView().getModel("rejectReason").oData
                 });
-
+                var aModel = this.getView().getModel();
                 sap.ui.getCore().setModel(oModel);
 
                 this.recjectCombo  = new sap.m.ComboBox({width:'143%'});
@@ -212,114 +234,136 @@ sap.ui.define([
                     actions: ["Reject All", "Cancel"],
                     onClose: function(action){
                     if(action=="Reject All"){
-                        rejectreason = "'"+window.view1.recjectCombo.getSelectedKey()+"'";
+                        rejectreason = window.view1.recjectCombo.getSelectedKey();
                         var date = that.rejectDatePicker.getDateValue();
                         if(date == null || rejectreason ==''){
                             return;
                         }
                         BusyIndicator.show();
                         date.setHours(date.getHours() + 9);
+                        
+                        aModel.callFunction("/rejectAll",{method:"POST", 
+                        urlParameters:{"SalesOrderNumber":salesOrderNumber, 
+                                        "pricingdate":date,
+                                        "rejectreason":rejectreason}, 
+                                        success:fnSuccess, 
+                                        error: fnError})
+                        function fnSuccess(oData,oResponse){
+                                    
+                            var _spmsg = JSON.stringify(oResponse.headers).split('message\\":\\"')[1]
+                            var msg = _spmsg.split('\\",\\"target')[0]
+                            var _msg = decodeURIComponent(JSON.parse('"'+msg+'"'));
+
+                            MessageToast.show(_msg,{duration:5000});
+                            BusyIndicator.hide();
+                          }
+                          function fnError(error){
+                            console.log(error);
+                            BusyIndicator.hide();
+                          }
+
+                        // date.setHours(date.getHours() + 9);
                     
-                        var dt = date;
+                        // var dt = date;
                         
-                        var _dtFormat= dt.getFullYear()+ '-' + (dt.getMonth()+1).toString().padStart(2,'0') + '-' + dt.getDate().toString().padStart(2,'0');
-                        var s_dtFormat = "datetime'"+_dtFormat+"T00:00'";
+                        // var _dtFormat= dt.getFullYear()+ '-' + (dt.getMonth()+1).toString().padStart(2,'0') + '-' + dt.getDate().toString().padStart(2,'0');
+                        // var s_dtFormat = "datetime'"+_dtFormat+"T00:00'";
                                             
-                        const xmlHttpPost = new XMLHttpRequest();
-                        const xmlHttp = new XMLHttpRequest();
+                        // const xmlHttpPost = new XMLHttpRequest();
+                        // const xmlHttp = new XMLHttpRequest();
 
-                        //xmlHttp.open("GET", "http://localhost:9999/http://20.194.41.230:50000/sap/opu/odata/sap/ZSPOC06_03_SOLIST_B_V2")
-                        xmlHttp.open("GET", "http://20.194.41.230:50000/sap/opu/odata/sap/ZSPOC06_03_SOLIST_B_V2")
-                        xmlHttp.setRequestHeader("Authorization", "Basic c3BvYzA2OlNwb2MwNiEh");
-                        xmlHttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-                        xmlHttp.setRequestHeader("x-csrf-token", "FETCH");
+                        // //xmlHttp.open("GET", "http://localhost:9999/http://20.194.41.230:50000/sap/opu/odata/sap/ZSPOC06_03_SOLIST_B_V2")
+                        // xmlHttp.open("GET", "http://20.194.41.230:50000/sap/opu/odata/sap/ZSPOC06_03_SOLIST_B_V2")
+                        // xmlHttp.setRequestHeader("Authorization", "Basic c3BvYzA2OlNwb2MwNiEh");
+                        // xmlHttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+                        // xmlHttp.setRequestHeader("x-csrf-token", "FETCH");
                         
-                        xmlHttp.send();
+                        // xmlHttp.send();
                         
-                        xmlHttp.onreadystatechange = function() {
-                            if (xmlHttp.readyState == 4) { 
-                                if (xmlHttp.status == 200 || xmlHttp.status == 201){
-                                    console.log("[statusReject All] : " + xmlHttp.status);
-                                    console.log("[responseReject All] : " + "[success]");    				   				    				
-                                    console.log("[responseReject All] : " + xmlHttp.responseText);
-                                    console.log("");
+                        // xmlHttp.onreadystatechange = function() {
+                        //     if (xmlHttp.readyState == 4) { 
+                        //         if (xmlHttp.status == 200 || xmlHttp.status == 201){
+                        //             console.log("[statusReject All] : " + xmlHttp.status);
+                        //             console.log("[responseReject All] : " + "[success]");    				   				    				
+                        //             console.log("[responseReject All] : " + xmlHttp.responseText);
+                        //             console.log("");
                                   
-                                }
-                                else {
-                                    console.log("[statusReject All] : " + xmlHttp.status);
-                                    console.log("[responseReject All] : " + "[fail]");    				   				    				
-                                    console.log("[responseReject All] : " + xmlHttp.responseText);
-                                    console.log("");        
-                                    MessageToast.show(xmlHttp.status); 
-                                    BusyIndicator.hide();				
-                                }				
-                            } 
-    		            }
-                        xmlHttp.onload = () => {
-                            if (xmlHttp.readyState == 4) { 
-                                if (xmlHttp.status == 200 || xmlHttp.status == 201){
-                                        console.log("[status3] : " + xmlHttp.status);
-                                        console.log("[response3] : " + "[success3]");    				   				    				
-                                        console.log("[response3] : " + xmlHttp.responseText);
-                                        console.log("[Allheaders3] : " + xmlHttp.getAllResponseHeaders());
-                                        console.log("");
+                        //         }
+                        //         else {
+                        //             console.log("[statusReject All] : " + xmlHttp.status);
+                        //             console.log("[responseReject All] : " + "[fail]");    				   				    				
+                        //             console.log("[responseReject All] : " + xmlHttp.responseText);
+                        //             console.log("");        
+                        //             MessageToast.show(xmlHttp.status); 
+                        //             BusyIndicator.hide();				
+                        //         }				
+                        //     } 
+    		            // }
+                        // xmlHttp.onload = () => {
+                        //     if (xmlHttp.readyState == 4) { 
+                        //         if (xmlHttp.status == 200 || xmlHttp.status == 201){
+                        //                 console.log("[status3] : " + xmlHttp.status);
+                        //                 console.log("[response3] : " + "[success3]");    				   				    				
+                        //                 console.log("[response3] : " + xmlHttp.responseText);
+                        //                 console.log("[Allheaders3] : " + xmlHttp.getAllResponseHeaders());
+                        //                 console.log("");
 
-                                   //var url = "http://localhost:9999/http://20.194.41.230:50000/sap/opu/odata/sap/ZSPOC06_03_SOLIST_B_V2/rejectAll?SalesOrderNumber="+_salesOrderNumber+"&pricingdate="+s_dtFormat+"&rejectreason="+rejectreason ;
-                                    var url = "http://20.194.41.230:50000/sap/opu/odata/sap/ZSPOC06_03_SOLIST_B_V2/rejectAll?SalesOrderNumber="+_salesOrderNumber+"&pricingdate="+s_dtFormat+"&rejectreason="+rejectreason ;
-                                    var _durl = decodeURI(url);
-                                    console.log(_durl);
-                                    xmlHttpPost.open("POST", _durl,true);
-                                    xmlHttpPost.setRequestHeader('content-type', 'text/html');
-                                    xmlHttpPost.setRequestHeader("Authorization", "Basic c3BvYzA2OlNwb2MwNiEh");
-                                    xmlHttpPost.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-                                    xmlHttpPost.setRequestHeader("x-csrf-token",xmlHttp.getResponseHeader("x-csrf-token"));
-                                    //xmlHttpPost.setRequestHeader("Accept-Language","euc-kr");
-                                    xmlHttpPost.setRequestHeader("Accept","application/json");
+                        //            //var url = "http://localhost:9999/http://20.194.41.230:50000/sap/opu/odata/sap/ZSPOC06_03_SOLIST_B_V2/rejectAll?SalesOrderNumber="+_salesOrderNumber+"&pricingdate="+s_dtFormat+"&rejectreason="+rejectreason ;
+                        //             var url = "http://20.194.41.230:50000/sap/opu/odata/sap/ZSPOC06_03_SOLIST_B_V2/rejectAll?SalesOrderNumber="+_salesOrderNumber+"&pricingdate="+s_dtFormat+"&rejectreason="+rejectreason ;
+                        //             var _durl = decodeURI(url);
+                        //             console.log(_durl);
+                        //             xmlHttpPost.open("POST", _durl,true);
+                        //             xmlHttpPost.setRequestHeader('content-type', 'text/html');
+                        //             xmlHttpPost.setRequestHeader("Authorization", "Basic c3BvYzA2OlNwb2MwNiEh");
+                        //             xmlHttpPost.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+                        //             xmlHttpPost.setRequestHeader("x-csrf-token",xmlHttp.getResponseHeader("x-csrf-token"));
+                        //             //xmlHttpPost.setRequestHeader("Accept-Language","euc-kr");
+                        //             xmlHttpPost.setRequestHeader("Accept","application/json");
 
-                                    xmlHttpPost.send();
+                        //             xmlHttpPost.send();
 
-                                    console.log("[statusPOST] : " + xmlHttpPost.status);
-                                    console.log("[responsePOST] : " + xmlHttpPost.responseText);
-                                    console.log("[AllResponseHeadersPOST] : " + xmlHttpPost.getAllResponseHeaders());
-                                    console.log("");
+                        //             console.log("[statusPOST] : " + xmlHttpPost.status);
+                        //             console.log("[responsePOST] : " + xmlHttpPost.responseText);
+                        //             console.log("[AllResponseHeadersPOST] : " + xmlHttpPost.getAllResponseHeaders());
+                        //             console.log("");
                                 
                                 
-                                }else{
-                                    alert("ERROR LOADING FILE!" + xmlHttp.status);
-                                    MessageToast.show(xmlHttp.status); 
-                                    BusyIndicator.hide();
-                                }
-                            }
+                        //         }else{
+                        //             alert("ERROR LOADING FILE!" + xmlHttp.status);
+                        //             MessageToast.show(xmlHttp.status); 
+                        //             BusyIndicator.hide();
+                        //         }
+                        //     }
                            
-                        };
-                        xmlHttpPost.onreadystatechange = function(e) {
-                            if (xmlHttpPost.readyState == 4) { 
-                                if (xmlHttpPost.status == 200 || xmlHttpPost.status == 201){
+                        // };
+                        // xmlHttpPost.onreadystatechange = function(e) {
+                        //     if (xmlHttpPost.readyState == 4) { 
+                        //         if (xmlHttpPost.status == 200 || xmlHttpPost.status == 201){
 
-                                    var headers = xmlHttpPost.getResponseHeader('sap-message').trim().split('\r\n')[0];
-                                    var _spmsg = headers.split('"message":"')[1];
-                                    var msg = _spmsg.split('","target')[0];
-                                    var _msg = decodeURIComponent(JSON.parse('"'+msg+'"'));
+                        //             var headers = xmlHttpPost.getResponseHeader('sap-message').trim().split('\r\n')[0];
+                        //             var _spmsg = headers.split('"message":"')[1];
+                        //             var msg = _spmsg.split('","target')[0];
+                        //             var _msg = decodeURIComponent(JSON.parse('"'+msg+'"'));
 
-                                    MessageToast.show(_msg,{duration:5000});
-                                    BusyIndicator.hide();
-                                    console.log("[statusPostReject All] : " + xmlHttpPost.status);
-                                    console.log("[responsePostReject All] : " + "[success]");    				   				    				
-                                    console.log("[responsePostReject All] : " + xmlHttpPost.responseText);
-                                    console.log("[responsePostReject All] : " + xmlHttpPost.responseText);
-                                    console.log("");
-                                }
-                                else {
-                                    MessageToast.show("err");
-                                    console.log("[statusReject All] : " + xmlHttpPost.status);
-                                    console.log("[responseReject All] : " + "[fail]");    				   				    				
-                                    console.log("[responseReject All] : " + xmlHttpPost.responseText);
-                                    console.log("");      
-                                    MessageToast.show(xmlHttpPost.status);   		
-                                    BusyIndicator.hide();		
-                                }				
-                            } 
-    		            }
+                        //             MessageToast.show(_msg,{duration:5000});
+                        //             BusyIndicator.hide();
+                        //             console.log("[statusPostReject All] : " + xmlHttpPost.status);
+                        //             console.log("[responsePostReject All] : " + "[success]");    				   				    				
+                        //             console.log("[responsePostReject All] : " + xmlHttpPost.responseText);
+                        //             console.log("[responsePostReject All] : " + xmlHttpPost.responseText);
+                        //             console.log("");
+                        //         }
+                        //         else {
+                        //             MessageToast.show("err");
+                        //             console.log("[statusReject All] : " + xmlHttpPost.status);
+                        //             console.log("[responseReject All] : " + "[fail]");    				   				    				
+                        //             console.log("[responseReject All] : " + xmlHttpPost.responseText);
+                        //             console.log("");      
+                        //             MessageToast.show(xmlHttpPost.status);   		
+                        //             BusyIndicator.hide();		
+                        //         }				
+                        //     } 
+    		            // }
                     }
                 }});
               
