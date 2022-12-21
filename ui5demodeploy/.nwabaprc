@@ -1,0 +1,11 @@
+{
+    "base": "./dist",
+    "conn_usestrictssl" : false,
+    "conn_server": "http://vhcals4hci.dummy.nodomain:50000/",
+    "conn_client" : "100",
+    "conn_user": "spoc06",
+    "conn_password": "Spoc06!!",
+    "abap_package": "$TMP",
+    "abap_bsp": "ZSPOC06_UI_05",
+    "abap_bsp_text": "UI5 upload through VSCode App"
+}
