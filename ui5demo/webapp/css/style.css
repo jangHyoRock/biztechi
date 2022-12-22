@@ -1,5 +1,0 @@
-/* Enter your custom styles here */
-
-.sapUiCompFilterBar .sapUiAFLayout .sapUiCompFilterLabel.sapMLabel .sapMLabelTextWrapper::after {
-    content: "";
-}
