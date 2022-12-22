@@ -41,7 +41,6 @@ sap.ui.define([
                 });
                 this.oSmartVariantManagement.addPersonalizableControl(oPersInfo);
                 this.oSmartVariantManagement.initialise(function () {}, this.oFilterBar);
-                BusyIndicator.hide();
             },
 
             rowSelectionChange : function(e){
@@ -62,7 +61,6 @@ sap.ui.define([
                 var that = this;
                 var sPath =this.sPath
                 var salesOrderNumber = window.ui5demodeploy.getView().getModel("salesList").getProperty(sPath + "/SalesOrderNumber")
-              //  var _salesOrderNumber = "'"+String(salesOrderNumber.padStart(10,'0'))+"'"; // '000003'
                 var oModel = this.getView().getModel();
 
                 MessageBox.confirm(new sap.m.VBox({items : [new sap.m.Text({text : 'Prising Date: '}).addStyleClass(''), this.pricingDatePicker]}), 
@@ -72,7 +70,6 @@ sap.ui.define([
                     onClose: function(action){
                     if(action=="Re-Prising"){
                         var date = that.pricingDatePicker.getDateValue();
-                        console.log(date);
                         if(date == null){
                             return;
                         }
@@ -85,7 +82,6 @@ sap.ui.define([
                                         success:fnSuccess, 
                                         error: fnError})
                         function fnSuccess(oData,oResponse){
-                            console.log(oResponse);
                             var _spmsg = JSON.stringify(oResponse.headers).split('message\\":\\"')[1]
                             var _starget = _spmsg.split('\\",\\"')[0];
                             var _msg = _starget.replaceAll("\\\\","\\");
@@ -95,7 +91,6 @@ sap.ui.define([
                             BusyIndicator.hide();
                         }
                         function fnError(error){
-                        console.log(error);
                         BusyIndicator.hide();
                         }
                     }
@@ -124,9 +119,6 @@ sap.ui.define([
                 var that = this;
                 var sPath = this.sPath
                 var salesOrderNumber = window.ui5demodeploy.getView().getModel("salesList").getProperty(sPath + "/SalesOrderNumber");
-                var _salesOrderNumber = "'"+String(salesOrderNumber.padStart(10,'0'))+"'"; // '000003'
-                //var _salesOrderNumber ="'0000004863'";
-                //console.log(_salesOrderNumber);
                 var rejectreason;
 
                 MessageBox.confirm(new sap.m.VBox({items : [new sap.m.Text({text : 'Prising Date: '}).addStyleClass(''), this.rejectDatePicker,
@@ -160,7 +152,6 @@ sap.ui.define([
                             BusyIndicator.hide();
                         }
                             function fnError(error){
-                            //console.log(error);
                             BusyIndicator.hide();
                         }
                     }
